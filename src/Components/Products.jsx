@@ -17,7 +17,7 @@ const Products = () => {
 
       const response = await axios.get(url);
 
-      setUserData(response.data.products); // ✅ correct
+      setUserData(response.data.products); 
       setLoading(false);
     } catch (error) {
       console.log("error", error);
