@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { IoIosSearch } from "react-icons/io";
+import BarcodeSearch from "./BarcodeSearch";
 
 const SearchBar = () => {
   const [products, setProducts] = useState([]);
@@ -26,7 +28,8 @@ const SearchBar = () => {
     setLoading(true);
     axios
       .get(
-        `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${debouncedText}&json=true`)
+        `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${debouncedText}&json=true`
+      )
       .then((response) => {
         setProducts(response.data.products || []);
         setLoading(false);
@@ -41,23 +44,42 @@ const SearchBar = () => {
   const filteredProducts = products;
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search products..."
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-      />
+    <div className="flex flex-col p-4 md:p-6 gap-6">
+      {/* Search Inputs Container */}
+      <div className="flex flex-col md:flex-row justify-around items-center gap-4">
+        <div className="flex justify-between items-center bg-gray-200 rounded-full py-3 px-6 w-full md:w-auto">
+          <input
+            className="border-none focus:outline-none rounded-sm p-1 flex-grow"
+            type="text"
+            placeholder="Search products..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && setDebouncedText(searchText)}
+          />
+          <IoIosSearch className="text-3xl p-1 rounded-full w-9 h-9 cursor-pointer ml-2 flex-shrink-0" />
+        </div>
 
-      {loading && <p>Loading...</p>}
+        <div className="w-full md:w-auto">
+          <BarcodeSearch />
+        </div>
+      </div>
 
-      <ul>
-        {filteredProducts.map((item) => (
-          <li key={item.id}>
-            {item.product_name || item.product_name_en || "Unknown Product"}
-          </li>
-        ))}
-      </ul>
+      {/* Results Container */}
+      <div className="flex flex-col gap-4">
+        {loading && <p className="text-white font-semibold">Loading...</p>}
+
+        {filteredProducts.length > 0 && (
+          <div className="bg-white rounded-lg p-4">
+            <ul className="space-y-2">
+              {filteredProducts.map((item) => (
+                <li key={item.id} className="text-gray-800 p-2 border-b last:border-b-0">
+                  {item.product_name || item.product_name_en || "Unknown Product"}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

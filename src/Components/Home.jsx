@@ -10,13 +10,16 @@ const Home = () => {
   return (
     <>
       <SearchBar /><br />
-      <BarcodeSearch /><br />
+
       {/* <Category/><br /> */}
+      
       <SortItems/><br />
+
       {/* <Products /> original Product files to fetch data from an API */}
+
       <Products2 />  {/* Infinite scroll implementation */}
     </>
   );
 }
 
-export default Home
+export default Home;

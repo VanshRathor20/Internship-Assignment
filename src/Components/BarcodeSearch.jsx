@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { IoIosSearch } from "react-icons/io";
 
 const BarcodeSearch = () => {
   const [barcode, setBarcode] = useState("");
@@ -35,28 +36,39 @@ const BarcodeSearch = () => {
   };
 
   return (
-    <div>
-      <h2>Barcode Product Search</h2>
+    <div className="w-full md:w-auto">
+      <div className="flex justify-between items-center bg-gray-200 rounded-full py-3 px-6 gap-2 w-full md:w-auto">
+        <input
+          className="border-none focus:outline-none rounded-sm p-1 flex-grow"
+          type="text"
+          placeholder="Enter barcode Number..."
+          value={barcode}
+          onChange={(e) => setBarcode(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && searchProduct()}
+        />
 
-      <input
-        type="text"
-        placeholder="Enter barcode Number..."
-        value={barcode}
-        onChange={(e) => setBarcode(e.target.value)}
-      />
+        <button className="flex-shrink-0">
+          <IoIosSearch
+            onClick={searchProduct}
+            className="text-3xl p-1 rounded-full w-9 h-9 cursor-pointer"
+          />
+        </button>
+      </div>
 
-      <button onClick={searchProduct}>Search</button>
-
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && (
+        <p className="text-white font-semibold p-2 mt-2">Loading...</p>
+      )}
+      {error && <p className="text-red-600 font-semibold p-2 mt-2">{error}</p>}
 
       {product && (
-        <div>
-          <h3>{product.product_name || "No name available"}</h3>
-          <p>
+        <div className="bg-white w-auto rounded-lg p-4 mt-4 border-none shadow-lg">
+          <h3 className="font-bold text-lg">
+            {product.product_name || "No name available"}
+          </h3>
+          <p className="text-gray-700 mt-2">
             <strong>Brand:</strong> {product.brands}
           </p>
-          <p>
+          <p className="text-gray-700">
             <strong>Category:</strong> {product.categories}
           </p>
 
@@ -65,6 +77,7 @@ const BarcodeSearch = () => {
               src={product.image_url}
               alt={product.product_name}
               width="150"
+              className="mt-4 rounded"
             />
           )}
         </div>
