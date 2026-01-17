@@ -71,52 +71,52 @@ const SearchBar = () => {
         {loading && <p className="text-white font-semibold">Loading...</p>}
 
         {filteredProducts.length > 0 && (
-          <div className="bg-white rounded-lg p-4">
-            <ul className="space-y-4">
-              {filteredProducts.map((item) => (
-                <li
-                  key={item.id}
-                  className="text-gray-800 p-4 border-b last:border-b-0"
-                >
-                  <h3 className="font-bold text-lg mb-2">
-                    {item.product_name ||
-                      item.product_name_en ||
-                      "Unknown Product"}
-                  </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredProducts.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow"
+              >
+                {item.image_url && (
+                  <img
+                    src={item.image_url}
+                    alt={item.product_name}
+                    className="w-full h-48 rounded object-cover mb-4"
+                  />
+                )}
 
-                  <div className="flex flex-col md:flex-row gap-4">
-                    {item.image_url && (
-                      <img
-                        src={item.image_url}
-                        alt={item.product_name}
-                        className="w-24 h-24 rounded object-cover"
-                      />
-                    )}
+                <h3 className="font-bold text-lg mb-3 line-clamp-2">
+                  {item.product_name ||
+                    item.product_name_en ||
+                    "Unknown Product"}
+                </h3>
 
-                    <div className="flex-1">
-                      {item.brands && (
-                        <p className="text-gray-700">
-                          <strong>Brand:</strong> {item.brands}
-                        </p>
-                      )}
-                      {item.categories && (
-                        <p className="text-gray-700 mt-2">
-                          <strong>Category:</strong> {item.categories}
-                        </p>
-                      )}
-                      {item.nutrition_grades && (
-                        <p className="text-gray-700 mt-2">
-                          <strong>Nutrition Grade:</strong>{" "}
-                          <span className="font-bold text-lg">
-                            {item.nutrition_grades}
-                          </span>
-                        </p>
-                      )}
+                <div className="space-y-2 text-sm">
+                  {item.brands && (
+                    <p className="text-gray-700">
+                      <strong>Brand:</strong>{" "}
+                      <span className="text-gray-600">{item.brands}</span>
+                    </p>
+                  )}
+                  {item.categories && (
+                    <p className="text-gray-700">
+                      <strong>Category:</strong>{" "}
+                      <span className="text-gray-600 line-clamp-2">
+                        {item.categories}
+                      </span>
+                    </p>
+                  )}
+                  {item.nutrition_grades && (
+                    <div className="flex items-center gap-2 pt-2 border-t">
+                      <strong>Grade:</strong>
+                      <span className="inline-block bg-gradient-to-r from-green-400 to-green-600 text-white font-bold px-4 py-2 rounded-full text-center whitespace-nowrap">
+                        {item.nutrition_grades}
+                      </span>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

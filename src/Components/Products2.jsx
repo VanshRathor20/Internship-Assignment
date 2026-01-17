@@ -17,7 +17,7 @@ const Products2 = () => {
     try {
       setLoading(true);
       const url =
-        "https://world.openfoodfacts.org/cgi/search.pl?search_terms=apple&page=" +
+        "https://world.openfoodfacts.org/cgi/search.pl?search_terms=&page=" +
         currentPage +
         "&json=true";
 

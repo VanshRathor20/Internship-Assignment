@@ -43,10 +43,16 @@ const BarcodeSearch = () => {
           type="text"
           placeholder="Enter barcode Number..."
           value={barcode}
-          onChange={(e) => setBarcode(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            setBarcode(value);
+            if (value.trim() === "") {
+              setProduct(null);
+              setError("");
+            }
+          }}
           onKeyPress={(e) => e.key === "Enter" && searchProduct()}
         />
-
         <button className="flex-shrink-0">
           <IoIosSearch
             onClick={searchProduct}
