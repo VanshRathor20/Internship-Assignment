@@ -54,7 +54,9 @@ const SearchBar = () => {
             placeholder="Search products..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && setDebouncedText(searchText)}
+            onKeyPress={(e) =>
+              e.key === "Enter" && setDebouncedText(searchText)
+            }
           />
           <IoIosSearch className="text-3xl p-1 rounded-full w-9 h-9 cursor-pointer ml-2 flex-shrink-0" />
         </div>
@@ -70,10 +72,48 @@ const SearchBar = () => {
 
         {filteredProducts.length > 0 && (
           <div className="bg-white rounded-lg p-4">
-            <ul className="space-y-2">
+            <ul className="space-y-4">
               {filteredProducts.map((item) => (
-                <li key={item.id} className="text-gray-800 p-2 border-b last:border-b-0">
-                  {item.product_name || item.product_name_en || "Unknown Product"}
+                <li
+                  key={item.id}
+                  className="text-gray-800 p-4 border-b last:border-b-0"
+                >
+                  <h3 className="font-bold text-lg mb-2">
+                    {item.product_name ||
+                      item.product_name_en ||
+                      "Unknown Product"}
+                  </h3>
+
+                  <div className="flex flex-col md:flex-row gap-4">
+                    {item.image_url && (
+                      <img
+                        src={item.image_url}
+                        alt={item.product_name}
+                        className="w-24 h-24 rounded object-cover"
+                      />
+                    )}
+
+                    <div className="flex-1">
+                      {item.brands && (
+                        <p className="text-gray-700">
+                          <strong>Brand:</strong> {item.brands}
+                        </p>
+                      )}
+                      {item.categories && (
+                        <p className="text-gray-700 mt-2">
+                          <strong>Category:</strong> {item.categories}
+                        </p>
+                      )}
+                      {item.nutrition_grades && (
+                        <p className="text-gray-700 mt-2">
+                          <strong>Nutrition Grade:</strong>{" "}
+                          <span className="font-bold text-lg">
+                            {item.nutrition_grades}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
