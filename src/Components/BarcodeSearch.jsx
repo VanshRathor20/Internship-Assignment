@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { IoIosSearch } from "react-icons/io";
+import Loader from "./Loader";
 
 const BarcodeSearch = () => {
   const [barcode, setBarcode] = useState("");
@@ -61,9 +62,12 @@ const BarcodeSearch = () => {
         </button>
       </div>
 
-      {loading && (
+      {
+        // <Loader />
+      loading && (
         <p className="text-white font-semibold p-2 mt-2">Loading...</p>
-      )}
+      )
+      }
       {error && <p className="text-red-600 font-semibold p-2 mt-2">{error}</p>}
 
       {product && (

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SortItems from "./SortItems";
+import Loader from "./Loader";
 
 const Products2 = ({ onProductsLoaded, selectedCategory }) => {
   const [userData, setUserData] = useState([]);
@@ -157,17 +158,18 @@ const Products2 = ({ onProductsLoaded, selectedCategory }) => {
         next={fetchMoreData}
         hasMore={hasMore}
         loader={
-          <div className="text-center py-6">
-            <h4 className="text-lg font-semibold text-gray-600">
-              Loading products...
-            </h4>
-          </div>
+          // <div className="text-center py-6">
+          //   <h4 className="text-lg font-semibold text-gray-600">
+          //     Loading products...
+          //   </h4>
+          // </div>
+          <Loader/>
         }
         endMessage={
           sortedData.length > 0 ? (
             <div className="text-center py-6">
               <p className="text-gray-600 font-semibold">
-                ✅ All products loaded
+                All products loaded
               </p>
             </div>
           ) : null

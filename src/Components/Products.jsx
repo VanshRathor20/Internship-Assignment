@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "./Loader";
 
 const Products = () => {
   const [userData, setUserData] = useState([]);
@@ -27,9 +28,12 @@ const Products = () => {
 
   return (
     <>
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
+      {loading ? 
+      <Loader/>
+      // (
+      //   <h1>Loading...</h1>
+      // ) 
+      : (
         userData.map((item) => (
           <ul key={item.id}>
             <li>{item.product_name || item.product_name_en || "No name"}</li>
