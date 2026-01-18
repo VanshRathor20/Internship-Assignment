@@ -3,14 +3,19 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SortItems from "./SortItems";
 
-const Products2 = () => {
+const Products2 = ({ onProductsLoaded, selectedCategory }) => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState("default");
+  const [error, setError] = useState("");
 
   useEffect(() => {
+    setCurrentPage(1);
+    setUserData([]);
+    setHasMore(true);
+    setError("");
     getUserData();
     // eslint-disable-next-line
   }, []);
@@ -18,27 +23,47 @@ const Products2 = () => {
   async function getUserData() {
     try {
       setLoading(true);
+      setError("");
 
       const url =
         "https://world.openfoodfacts.org/cgi/search.pl?search_terms=&page=" +
         currentPage +
         "&json=true";
 
-      const response = await axios.get(url);
+      const response = await axios.get(url, { timeout: 10000 });
       const products = response.data.products || [];
 
       if (products.length === 0) {
         setHasMore(false);
+        if (currentPage === 1) {
+          setError("No products found");
+        }
       } else {
-        setUserData((prev) => [...prev, ...products]);
+        const newProducts =
+          currentPage === 1 ? products : userData.concat(products);
+        setUserData(newProducts);
         setCurrentPage((prev) => prev + 1);
+
+        // Pass products to parent whenever they load
+        if (onProductsLoaded) {
+          onProductsLoaded(newProducts);
+        }
       }
 
       setLoading(false);
     } catch (error) {
-      console.log("API error:", error);
+      const errorMsg =
+        error.message === "timeout of 10000ms exceeded"
+          ? "Request timeout. Please try again."
+          : "Failed to load products. Check your connection.";
+
+      setError(errorMsg);
+      console.error("API error:", error);
       setLoading(false);
-      setHasMore(false);
+
+      if (currentPage === 1) {
+        setHasMore(false);
+      }
     }
   }
 
@@ -48,9 +73,40 @@ const Products2 = () => {
     }
   };
 
-  // 🔥 SORTING LOGIC (IMPORTANT)
+  // Filter products by category if selected
+  const filteredData = selectedCategory
+    ? userData.filter((product) => {
+        const catTags = product.categories_tags || [];
+        const categories = product.categories || "";
+        const categoryName = selectedCategory
+          .replace("en:", "")
+          .toLowerCase()
+          .trim();
+
+        // Check if selected category is in categories_tags array
+        if (Array.isArray(catTags)) {
+          const match = catTags.some((tag) => {
+            const tagLower = String(tag).toLowerCase().trim();
+            return (
+              tagLower === categoryName ||
+              tagLower.includes(categoryName) ||
+              categoryName.includes(tagLower.replace("en:", ""))
+            );
+          });
+          if (match) return true;
+        }
+
+        // If categories is a string, check if it contains the category name
+        if (typeof categories === "string") {
+          return categories.toLowerCase().includes(categoryName);
+        }
+
+        return false;
+      })
+    : userData;
+
   const sortedData = useMemo(() => {
-    let data = [...userData];
+    let data = [...filteredData];
 
     switch (sortOption) {
       case "name-asc":
@@ -76,16 +132,25 @@ const Products2 = () => {
       default:
         return data;
     }
-  }, [userData, sortOption]);
+  }, [filteredData, sortOption]);
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-gray-50 min-h-screen">
       <h2 className="text-4xl font-bold mb-6 text-center">Products</h2>
 
+      {/* ERROR MESSAGE */}
+      {error && (
+        <div className="max-w-5xl mx-auto mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+          <p className="font-semibold">⚠️ {error}</p>
+        </div>
+      )}
+
       {/* SORT COMPONENT */}
-      <div className="flex justify-center mb-6">
-        <SortItems onSortChange={setSortOption} />
-      </div>
+      {sortedData.length > 0 && (
+        <div className="flex justify-center mb-6">
+          <SortItems onSortChange={setSortOption} />
+        </div>
+      )}
 
       <InfiniteScroll
         dataLength={sortedData.length}
@@ -99,14 +164,16 @@ const Products2 = () => {
           </div>
         }
         endMessage={
-          <div className="text-center py-6">
-            <p className="text-gray-600 font-semibold">
-              No more products to load
-            </p>
-          </div>
+          sortedData.length > 0 ? (
+            <div className="text-center py-6">
+              <p className="text-gray-600 font-semibold">
+                ✅ All products loaded
+              </p>
+            </div>
+          ) : null
         }
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {sortedData.map((item, index) => (
             <div
               key={index}

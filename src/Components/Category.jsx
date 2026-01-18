@@ -1,66 +1,95 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const ProductCategoryFilter = () => {
+const ProductCategoryFilter = ({
+  allProducts,
+  selectedCategory,
+  onCategoryChange,
+}) => {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
 
   // Fetch categories
   useEffect(() => {
-    axios
-      .get("https://world.openfoodfacts.org/categories.json")
-      .then((res) => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(
+          "https://world.openfoodfacts.org/categories.json",
+        );
         setCategories(res.data.tags.slice(0, 20));
-      })
-      .catch(() => setError("Failed to load categories"));
+        setError("");
+      } catch (err) {
+        setError("Failed to load categories");
+      }
+    };
+    fetchCategories();
   }, []);
 
-  // Fetch products
-  useEffect(() => {
-    const categorySlug = selectedCategory.replace("en:", "");
+  // Filter products locally based on selected category
+  const filteredProducts = selectedCategory
+    ? allProducts.filter((product) => {
+        const catTags = product.categories_tags || [];
+        const categories = product.categories || "";
+        const categoryName = selectedCategory
+          .replace("en:", "")
+          .toLowerCase()
+          .trim();
 
-    const url = selectedCategory
-      ? `https://world.openfoodfacts.org/category/${categorySlug}.json`
-      : `https://world.openfoodfacts.org/cgi/search.pl?search_simple=1&json=1`;
+        // Check if selected category is in categories_tags array
+        if (Array.isArray(catTags)) {
+          const match = catTags.some((tag) => {
+            const tagLower = String(tag).toLowerCase().trim();
+            return (
+              tagLower === categoryName ||
+              tagLower.includes(categoryName) ||
+              categoryName.includes(tagLower.replace("en:", ""))
+            );
+          });
+          if (match) return true;
+        }
 
-    axios
-      .get(url)
-      .then((res) => setProducts(res.data.products.slice(0, 10)))
-      .catch(() => setError("Failed to load products"));
-  }, [selectedCategory]);
+        // If categories is a string, check if it contains the category name
+        if (typeof categories === "string") {
+          return categories.toLowerCase().includes(categoryName);
+        }
+
+        return false;
+      })
+    : allProducts;
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow">
+    <div className="max-w-3xl mx-auto mt-10 p-6 border rounded-lg shadow bg-white">
       <h2 className="text-xl font-bold mb-4">Filter by Category</h2>
 
-      {error && <p className="text-red-500 mb-2">{error}</p>}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded mb-3">
+          {error}
+        </div>
+      )}
 
-      {/* CATEGORY DROPDOWN */}
       <select
-        className="w-full border px-3 py-2 rounded"
+        className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
+        onChange={(e) => onCategoryChange(e.target.value)}
       >
-        <option value="">All Categories</option>
-
-        {categories.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.name || cat.id.replace("en:", "")}
-          </option>
-        ))}
+        <option value="">All Categories ({allProducts.length})</option>
+        {categories.map((cat) => {
+          const count =
+            selectedCategory === cat.id ? filteredProducts.length : 0;
+          return (
+            <option key={cat.id} value={cat.id}>
+              {cat.name || cat.id.replace("en:", "")}
+            </option>
+          );
+        })}
       </select>
 
-      {/* PRODUCTS */}
-      <ul className="mt-4 space-y-2">
-        {products.map((item, index) => (
-          <li key={index} className="border p-2 rounded">
-            <p className="font-semibold">{item.product_name || "No name"}</p>
-            <p className="text-sm text-gray-500">{item.categories || "N/A"}</p>
-          </li>
-        ))}
-      </ul>
+      {selectedCategory && (
+        <p className="text-sm text-gray-600 mt-3">
+          Found <strong>{filteredProducts.length}</strong> products in this
+          category
+        </p>
+      )}
     </div>
   );
 };
