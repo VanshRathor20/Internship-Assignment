@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SortItems from "./SortItems";
 
 const Products2 = () => {
   const [userData, setUserData] = useState([]);
-  const [displayedData, setDisplayedData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOption, setSortOption] = useState("default");
 
   useEffect(() => {
     getUserData();
+    // eslint-disable-next-line
   }, []);
 
   async function getUserData() {
     try {
       setLoading(true);
+
       const url =
         "https://world.openfoodfacts.org/cgi/search.pl?search_terms=&page=" +
         currentPage +
@@ -27,32 +30,65 @@ const Products2 = () => {
       if (products.length === 0) {
         setHasMore(false);
       } else {
-        setUserData([...userData, ...products]);
-        setDisplayedData([...displayedData, ...products]);
-        setCurrentPage(currentPage + 1);
+        setUserData((prev) => [...prev, ...products]);
+        setCurrentPage((prev) => prev + 1);
       }
 
       setLoading(false);
     } catch (error) {
-      console.log("error", error);
+      console.log("API error:", error);
       setLoading(false);
       setHasMore(false);
     }
   }
 
   const fetchMoreData = () => {
-    // Fetch more products when user scrolls to bottom
-    if (hasMore && !loading) {
+    if (!loading && hasMore) {
       getUserData();
     }
   };
 
+  // 🔥 SORTING LOGIC (IMPORTANT)
+  const sortedData = useMemo(() => {
+    let data = [...userData];
+
+    switch (sortOption) {
+      case "name-asc":
+        return data.sort((a, b) =>
+          (a.product_name || "").localeCompare(b.product_name || ""),
+        );
+
+      case "name-desc":
+        return data.sort((a, b) =>
+          (b.product_name || "").localeCompare(a.product_name || ""),
+        );
+
+      case "nutrition-asc":
+        return data.sort((a, b) =>
+          (a.nutrition_grades || "z").localeCompare(b.nutrition_grades || "z"),
+        );
+
+      case "nutrition-desc":
+        return data.sort((a, b) =>
+          (b.nutrition_grades || "z").localeCompare(a.nutrition_grades || "z"),
+        );
+
+      default:
+        return data;
+    }
+  }, [userData, sortOption]);
+
   return (
     <div className="p-6">
-      <h2 className="text-4xl font-bold mb-8 flex justify-center align-items-center">Products</h2>
+      <h2 className="text-4xl font-bold mb-6 text-center">Products</h2>
+
+      {/* SORT COMPONENT */}
+      <div className="flex justify-center mb-6">
+        <SortItems onSortChange={setSortOption} />
+      </div>
 
       <InfiniteScroll
-        dataLength={displayedData.length}
+        dataLength={sortedData.length}
         next={fetchMoreData}
         hasMore={hasMore}
         loader={
@@ -70,10 +106,10 @@ const Products2 = () => {
           </div>
         }
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-          {displayedData.map((item) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sortedData.map((item, index) => (
             <div
-              key={item.id}
+              key={index}
               className="border border-gray-300 rounded-lg p-4 bg-white shadow-md hover:shadow-lg transition-shadow"
             >
               <h3 className="font-bold text-lg mb-2">
@@ -91,7 +127,7 @@ const Products2 = () => {
               {item.nutrition_grades && (
                 <p className="text-sm text-gray-600 mb-4">
                   <strong>Nutrition Grade:</strong>{" "}
-                  <span className="bg-yellow-200 px-2 py-1 rounded font-bold">
+                  <span className="bg-gradient-to-r from-green-400 to-green-600 px-3 py-1 rounded-lg font-bold text-white">
                     {item.nutrition_grades.toUpperCase()}
                   </span>
                 </p>

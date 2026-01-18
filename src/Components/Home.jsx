@@ -11,9 +11,7 @@ const Home = () => {
     <>
       <SearchBar /><br />
 
-      {/* <Category/><br /> */}
-      
-      <SortItems/><br />
+      <Category/><br />
 
       {/* <Products /> original Product files to fetch data from an API */}
 
