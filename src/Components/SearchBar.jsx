@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { IoIosSearch } from "react-icons/io";
+import { Link } from "react-router-dom";
 import BarcodeSearch from "./BarcodeSearch";
 
 const SearchBar = () => {
@@ -71,60 +72,59 @@ const SearchBar = () => {
         {loading && <p className="text-white font-semibold">Loading...</p>}
 
         {filteredProducts.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((item) => (
-              <div
+              <Link
                 key={item.id}
-                className="bg-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow"
+                to={`/product/${item.code}`}
+                className="border border-gray-300 rounded-lg p-4 bg-white shadow-md hover:shadow-xl transition-shadow cursor-pointer hover:border-blue-400 transform hover:scale-105 duration-200 flex flex-col"
               >
-                {item.image_url && (
-                  <img
-                    src={item.image_url}
-                    alt={item.product_name}
-                    className="w-full h-48 rounded object-cover mb-4"
-                  />
-                )}
-
-                <h3 className="font-bold text-lg mb-3 line-clamp-2">
+                <h3 className="font-bold text-lg mb-2 line-clamp-2 hover:text-blue-600">
                   {item.product_name ||
                     item.product_name_en ||
                     "Unknown Product"}
                 </h3>
 
-                <div className="space-y-2 text-sm">
-                  {item.brands && (
-                    <p className="text-gray-700">
-                      <strong>Brand:</strong>{" "}
-                      <span className="text-gray-600">{item.brands}</span>
-                    </p>
-                  )}
-                  {item.categories && (
-                    <p className="text-gray-700">
-                      <strong>Category:</strong>{" "}
-                      <span className="text-gray-600 line-clamp-2">
-                        {item.categories}
-                      </span>
-                    </p>
-                  )}
-                  {item.nutrition_grades && (
-                    <div className="flex items-center gap-2 pt-2 border-t">
-                      <strong>Grade:</strong>
-                      <span
-                        className={`inline-block font-bold px-4 py-2 rounded-full text-center whitespace-nowrap ${
-                          item.nutrition_grades.toUpperCase() === "UNKNOWN"
-                            ? "bg-gray-400 text-gray-800"
-                            : item.nutrition_grades.toUpperCase() ===
-                                "NOT-APPLICABLE"
-                              ? "bg-yellow-400 text-gray-800"
-                              : "bg-gradient-to-r from-green-400 to-green-600 text-white"
-                        }`}
-                      >
-                        {item.nutrition_grades.toUpperCase()}
-                      </span>
-                    </div>
-                  )}
+                <p className="text-sm text-gray-600 mb-2">
+                  <strong>Brand:</strong> {item.brands || "N/A"}
+                </p>
+
+                <p className="text-sm text-gray-600 mb-3">
+                  <strong>Category:</strong> {item.categories || "N/A"}
+                </p>
+
+                {item.nutrition_grades && (
+                  <p className="text-sm text-gray-600 mb-4">
+                    <strong>Nutrition Grade:</strong>{" "}
+                    <span
+                      className={`inline-block font-bold px-3 py-1 rounded-lg ${
+                        item.nutrition_grades.toUpperCase() === "UNKNOWN"
+                          ? "bg-gray-400 text-gray-800"
+                          : item.nutrition_grades.toUpperCase() ===
+                              "NOT-APPLICABLE"
+                            ? "bg-yellow-400 text-gray-800"
+                            : "bg-gradient-to-r from-green-400 to-green-600 text-white"
+                      }`}
+                    >
+                      {item.nutrition_grades.toUpperCase()}
+                    </span>
+                  </p>
+                )}
+
+                {item.image_url && (
+                  <img
+                    src={item.image_url}
+                    alt={item.product_name}
+                    className="w-full h-48 object-cover rounded-md flex-shrink-0 mb-4"
+                  />
+                )}
+
+                <div className="mt-auto pt-4 border-t border-gray-200">
+                  <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition font-semibold">
+                    View Details
+                  </button>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
