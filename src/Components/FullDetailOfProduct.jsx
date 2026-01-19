@@ -114,11 +114,6 @@ const FullDetailOfProduct = () => {
                   <p className="text-gray-500">No image available</p>
                 </div>
               )}
-              {product.image_ingredients_url && (
-                <button className="mt-4 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">
-                  View Ingredients Label
-                </button>
-              )}
             </div>
 
             {/* Right: Product Info */}
@@ -142,7 +137,13 @@ const FullDetailOfProduct = () => {
                     <strong>Nutrition Grade:</strong>
                   </p>
                   <div className="flex items-center gap-3">
-                    <span className="inline-block bg-gradient-to-r from-green-400 to-green-600 px-6 py-3 rounded-lg font-bold text-white text-2xl">
+                    <span
+                      className={`inline-block px-6 py-3 rounded-lg font-bold text-2xl ${
+                        product.nutrition_grades.toUpperCase() === "UNKNOWN"
+                          ? "bg-gray-400 text-gray-800"
+                          : "bg-gradient-to-r from-green-400 to-green-600 text-white"
+                      }`}
+                    >
                       {product.nutrition_grades.toUpperCase()}
                     </span>
                   </div>

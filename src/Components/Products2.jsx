@@ -196,7 +196,13 @@ const Products2 = ({ onProductsLoaded, selectedCategory }) => {
               {item.nutrition_grades && (
                 <p className="text-sm text-gray-600 mb-4">
                   <strong>Nutrition Grade:</strong>{" "}
-                  <span className="bg-gradient-to-r from-green-400 to-green-600 px-3 py-1 rounded-lg font-bold text-white">
+                  <span
+                    className={`px-3 py-1 rounded-lg font-bold ${
+                      item.nutrition_grades.toUpperCase() === "UNKNOWN"
+                        ? "bg-gray-400 text-gray-800"
+                        : "bg-gradient-to-r from-green-400 to-green-600 text-white"
+                    }`}
+                  >
                     {item.nutrition_grades.toUpperCase()}
                   </span>
                 </p>

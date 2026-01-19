@@ -109,8 +109,17 @@ const SearchBar = () => {
                   {item.nutrition_grades && (
                     <div className="flex items-center gap-2 pt-2 border-t">
                       <strong>Grade:</strong>
-                      <span className="inline-block bg-gradient-to-r from-green-400 to-green-600 text-white font-bold px-4 py-2 rounded-full text-center whitespace-nowrap">
-                        {item.nutrition_grades}
+                      <span
+                        className={`inline-block font-bold px-4 py-2 rounded-full text-center whitespace-nowrap ${
+                          item.nutrition_grades.toUpperCase() === "UNKNOWN"
+                            ? "bg-gray-400 text-gray-800"
+                            : item.nutrition_grades.toUpperCase() ===
+                                "NOT-APPLICABLE"
+                              ? "bg-yellow-400 text-gray-800"
+                              : "bg-gradient-to-r from-green-400 to-green-600 text-white"
+                        }`}
+                      >
+                        {item.nutrition_grades.toUpperCase()}
                       </span>
                     </div>
                   )}
