@@ -72,7 +72,7 @@ const ProductCategoryFilter = ({
         value={selectedCategory}
         onChange={(e) => onCategoryChange(e.target.value)}
       >
-        <option value="">All Categories ({allProducts.length})</option>
+        <option value="">All Categories</option>
         {categories.map((cat) => {
           const count =
             selectedCategory === cat.id ? filteredProducts.length : 0;
@@ -83,13 +83,6 @@ const ProductCategoryFilter = ({
           );
         })}
       </select>
-
-      {selectedCategory && (
-        <p className="text-sm text-gray-600 mt-3">
-          Found <strong>{filteredProducts.length}</strong> products in this
-          category
-        </p>
-      )}
     </div>
   );
 };

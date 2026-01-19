@@ -137,13 +137,7 @@ const FullDetailOfProduct = () => {
                     <strong>Nutrition Grade:</strong>
                   </p>
                   <div className="flex items-center gap-3">
-                    <span
-                      className={`inline-block px-6 py-3 rounded-lg font-bold text-2xl ${
-                        product.nutrition_grades.toUpperCase() === "UNKNOWN"
-                          ? "bg-gray-400 text-gray-800"
-                          : "bg-gradient-to-r from-green-400 to-green-600 text-white"
-                      }`}
-                    >
+                    <span className="inline-block bg-gradient-to-r from-green-400 to-green-600 px-6 py-3 rounded-lg font-bold text-white text-2xl">
                       {product.nutrition_grades.toUpperCase()}
                     </span>
                   </div>
