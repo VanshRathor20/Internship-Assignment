@@ -28,7 +28,7 @@ const SearchBar = () => {
     setLoading(true);
     axios
       .get(
-        `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${debouncedText}&json=true`
+        `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${debouncedText}&json=true`,
       )
       .then((response) => {
         setProducts(response.data.products || []);
@@ -61,7 +61,7 @@ const SearchBar = () => {
           <IoIosSearch className="text-3xl p-1 rounded-full w-9 h-9 cursor-pointer ml-2 flex-shrink-0" />
         </div>
 
-        <div className="w-full md:w-auto">
+        <div className="w-full md:w-auto flex gap-20 justify-between items-center">
           <BarcodeSearch />
         </div>
       </div>

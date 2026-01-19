@@ -179,7 +179,7 @@ const Products2 = ({ onProductsLoaded, selectedCategory }) => {
             <Link
               key={index}
               to={`/product/${item.code}`}
-              className="border mt-10 border-gray-300 rounded-lg p-4 bg-white shadow-md hover:shadow-xl transition-shadow cursor-pointer hover:border-blue-400 transform hover:scale-105 duration-200"
+              className="border mt-10 border-gray-300 rounded-lg p-4 bg-white shadow-md hover:shadow-xl transition-shadow cursor-pointer hover:border-blue-400 transform hover:scale-105 duration-200 flex flex-col"
             >
               <h3 className="font-bold text-lg mb-2 line-clamp-2 hover:text-blue-600">
                 {item.product_name || item.product_name_en || "Unknown Product"}
@@ -206,11 +206,11 @@ const Products2 = ({ onProductsLoaded, selectedCategory }) => {
                 <img
                   src={item.image_front_url}
                   alt={item.product_name}
-                  className="w-full h-48 object-cover rounded-md"
+                  className="w-full h-48 object-cover rounded-md flex-shrink-0"
                 />
               )}
 
-              <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="mt-4 pt-4 border-t border-gray-200 mt-auto">
                 <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition font-semibold">
                   View Details
                 </button>

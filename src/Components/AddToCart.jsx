@@ -1,8 +1,11 @@
 import React from 'react'
+import { IoMdCart } from "react-icons/io";
 
 const AddToCart = () => {
   return (
-    <div>AddToCart</div>
+    <div className='font-bold text-3xl cursor-pointer'>
+        <IoMdCart/>
+    </div>
   )
 }
 
