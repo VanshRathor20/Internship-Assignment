@@ -62,7 +62,7 @@ The application displays product data fetched from a public API and provides mul
 ├── ⚙️ package-lock.json
 ├── ⚙️ package.json
 └── 📄 vite.config.js
-
+```
 ---
 
 ## ⚙️ Installation & Setup
