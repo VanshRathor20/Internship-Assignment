@@ -147,12 +147,6 @@ const Products2 = ({ onProductsLoaded, selectedCategory }) => {
         </div>
       )}
 
-      {/* SORT COMPONENT */}
-      {sortedData.length > 0 && (
-        <div className="flex justify-center mb-6">
-          <SortItems onSortChange={setSortOption} />
-        </div>
-      )}
 
       <InfiniteScroll
         dataLength={sortedData.length}
