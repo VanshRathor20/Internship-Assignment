@@ -1,16 +1,95 @@
-# React + Vite
+# Internship Assignment – Product Explorer Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a frontend internship assignment built using React.  
+The application displays product data fetched from a public API and provides multiple features such as searching, filtering, sorting, barcode search, and detailed product views.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- Product listing with real-time API data
+- Search functionality with debouncing
+- Category-based filtering
+- Sorting options (e.g. name, nutrition grade, etc.)
+- Barcode-based product search
+- Detailed product view page
+- Infinite scrolling for better performance
+- Loading states and error handling
+- Responsive UI using Tailwind CSS
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React (Vite)
+- **Styling:** Tailwind CSS
+- **API Handling:** Axios / Fetch API
+- **Utilities:** Infinite Scroll
+- **Version Control:** Git & GitHub
+
+---
+
+## 📂 Project Structure
+
+- src/
+- ├── assets/
+- ├── Components/
+- │ ├── BarcodeSearch.jsx
+- │ ├── Category.jsx
+- │ ├── FullDetailOfProduct.jsx
+- │ ├── Home.jsx
+- │ ├── Loader.jsx
+- │ ├── Products.jsx
+- │ ├── Products2.jsx
+- │ ├── SearchBar.jsx
+- │ └── SortItems.jsx
+- ├── App.jsx
+- ├── index.css
+- └── main.jsx
+
+---
+
+## ⚙️ Installation & Setup
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/VanshRathor20/Internship-Assignment.git
+   
+2. Navigate to the project directory
+   ```bash
+   cd Internship-Assignment
+
+3. Install dependencies
+   ```bash
+   npm install
+  
+4. Start the development server
+   ```bash
+   npm run dev
+
+---
+
+## 🌐 API Used
+
+- Open Food Facts API
+- Used for fetching product details including categories and nutrition grades.
+
+---
+
+## 📌 Key Learnings
+
+- Working with real-world APIs
+
+- Optimizing search using debouncing
+
+- Managing state and side effects in React
+
+- Implementing infinite scrolling
+
+- Writing clean, reusable components
+
+---
+
+## 👤 Author
+- Vansh Rathor
+- Internship Assignment Project
