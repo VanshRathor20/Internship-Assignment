@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { IoIosSearch } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 import Loader from "./Loader";
 
 const BarcodeSearch = () => {
@@ -37,7 +38,7 @@ const BarcodeSearch = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <div className="flex justify-between items-center bg-gray-200 rounded-full py-3 px-6 gap-2 w-full">
         <input
           className="border-none focus:outline-none rounded-sm p-1 flex-grow"
@@ -62,34 +63,61 @@ const BarcodeSearch = () => {
         </button>
       </div>
 
-      {
-        // <Loader />
-        loading && (
-          <p className="text-white font-semibold p-2 mt-2">Loading...</p>
-        )
-      }
-      {error && <p className="text-red-600 font-semibold p-2 mt-2">{error}</p>}
+      {/* Product Card Modal - Positioned absolutely */}
+      {(product || loading || error) && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-2xl w-96 max-w-full mx-4">
+            {/* Close Button */}
+            <div className="flex justify-end p-4 border-b">
+              <button
+                onClick={() => {
+                  setProduct(null);
+                  setError("");
+                  setBarcode("");
+                }}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <IoClose size={24} />
+              </button>
+            </div>
 
-      {product && (
-        <div className="bg-white w-auto rounded-lg p-4 mt-4 border-none shadow-lg">
-          <h3 className="font-bold text-lg">
-            {product.product_name || "No name available"}
-          </h3>
-          <p className="text-gray-700 mt-2">
-            <strong>Brand:</strong> {product.brands}
-          </p>
-          <p className="text-gray-700">
-            <strong>Category:</strong> {product.categories}
-          </p>
+            {/* Content */}
+            <div className="p-6">
+              {loading && (
+                <div className="flex justify-center items-center">
+                  <p className="text-gray-700 font-semibold">Loading...</p>
+                </div>
+              )}
 
-          {product.image_url && (
-            <img
-              src={product.image_url}
-              alt={product.product_name}
-              width="150"
-              className="mt-4 rounded"
-            />
-          )}
+              {error && (
+                <p className="text-red-600 font-semibold text-center">
+                  {error}
+                </p>
+              )}
+
+              {product && (
+                <div>
+                  <h3 className="font-bold text-lg mb-3">
+                    {product.product_name || "No name available"}
+                  </h3>
+                  <p className="text-gray-700 mb-2">
+                    <strong>Brand:</strong> {product.brands || "N/A"}
+                  </p>
+                  <p className="text-gray-700 mb-4">
+                    <strong>Category:</strong> {product.categories || "N/A"}
+                  </p>
+
+                  {product.image_url && (
+                    <img
+                      src={product.image_url}
+                      alt={product.product_name}
+                      className="w-full h-64 object-cover rounded-lg"
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
