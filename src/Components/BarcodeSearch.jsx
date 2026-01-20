@@ -21,7 +21,7 @@ const BarcodeSearch = () => {
 
     try {
       const response = await axios.get(
-        `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`
+        `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`,
       );
 
       if (response.data.status === 1) {
@@ -37,12 +37,12 @@ const BarcodeSearch = () => {
   };
 
   return (
-    <div className="w-full md:w-auto">
-      <div className="flex justify-between items-center bg-gray-200 rounded-full py-3 px-6 gap-2 w-full md:w-auto">
+    <div className="w-full">
+      <div className="flex justify-between items-center bg-gray-200 rounded-full py-3 px-6 gap-2 w-full">
         <input
           className="border-none focus:outline-none rounded-sm p-1 flex-grow"
           type="text"
-          placeholder="Enter barcode Number..."
+          placeholder="Enter barcode..."
           value={barcode}
           onChange={(e) => {
             const value = e.target.value;
@@ -64,9 +64,9 @@ const BarcodeSearch = () => {
 
       {
         // <Loader />
-      loading && (
-        <p className="text-white font-semibold p-2 mt-2">Loading...</p>
-      )
+        loading && (
+          <p className="text-white font-semibold p-2 mt-2">Loading...</p>
+        )
       }
       {error && <p className="text-red-600 font-semibold p-2 mt-2">{error}</p>}
 
