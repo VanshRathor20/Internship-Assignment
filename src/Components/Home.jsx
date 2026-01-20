@@ -5,7 +5,6 @@ import BarcodeSearch from "./BarcodeSearch";
 import Category from "./Category";
 import SortItems from "./SortItems";
 import Products2 from "./Products2";
-import DonutChart from "./DonutChart";
 
 const Home = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -13,7 +12,6 @@ const Home = () => {
 
   return (
     <>
-      <DonutChart />
       <SearchBar />
       <br />
       <Category

@@ -4,6 +4,7 @@ import axios from "axios";
 import { IoIosArrowBack } from "react-icons/io";
 import { TiTick } from "react-icons/ti";
 import Loader from "./Loader";
+import DonutChart from "./DonutChart";
 
 const FullDetailOfProduct = () => {
   const { barcode } = useParams();
@@ -190,6 +191,12 @@ const FullDetailOfProduct = () => {
               <h2 className="text-3xl font-bold text-gray-800 mb-6">
                 Nutritional Information
               </h2>
+
+              {/* Donut Chart */}
+              <div className="mb-8 flex justify-center">
+                {/* <DonutChart product={product} /> */}
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Energy */}
                 {product.nutriments.energy !== undefined &&
