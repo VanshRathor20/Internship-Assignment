@@ -90,6 +90,30 @@ The application displays product data fetched from a public API and provides mul
 
 ---
 
+## 🧠 Method Used to Solve the Problem
+
+- First, I analyzed the assignment requirements to understand core features.
+- Chose React with Vite for faster development and better performance.
+- Integrated Open Food Facts API to fetch real-time product data.
+- Implemented debounced search to reduce unnecessary API calls.
+- Added category-based filtering and sorting to improve usability.
+- Implemented infinite scrolling to handle large data efficiently.
+- Managed loading and error states for better user experience.
+- Built reusable components and maintained clean project structure.
+
+---
+
+## ⏱️ Time Taken
+Total time taken to complete this assignment: **3–4 days**
+
+- Requirement analysis: 2–3 hours  
+- API integration & data handling: 3–4 hours  
+- Search, filter, sort features: 6–7 hours  
+- UI styling & responsiveness: 3–4 hours  
+- Testing & bug fixing: 2–3 hours
+  
+---
+
 ## 👤 Author
 - Vansh Rathor
 - Internship Assignment Project
