@@ -43,7 +43,6 @@ The application displays product data fetched from a public API and provides mul
 │   ├── 📁 Components
 │   │   ├── 📄 BarcodeSearch.jsx
 │   │   ├── 📄 Category.jsx
-│   │   ├── 📄 DonutChart.jsx
 │   │   ├── 📄 FullDetailOfProduct.jsx
 │   │   ├── 📄 Home.jsx
 │   │   ├── 📄 Loader.jsx
