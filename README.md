@@ -5,6 +5,11 @@ The application displays product data fetched from a public API and provides mul
 
 ---
 
+## 🌐 Live Demo
+🔗 Live URL: https://sparkling-pudding-8d40a6.netlify.app/
+
+---
+
 ## 🚀 Features
 
 - Product listing with real-time API data
@@ -31,21 +36,33 @@ The application displays product data fetched from a public API and provides mul
 
 ## 📂 Project Structure
 
-- src/
-- ├── assets/
-- ├── Components/
-- │ ├── BarcodeSearch.jsx
-- │ ├── Category.jsx
-- │ ├── FullDetailOfProduct.jsx
-- │ ├── Home.jsx
-- │ ├── Loader.jsx
-- │ ├── Products.jsx
-- │ ├── Products2.jsx
-- │ ├── SearchBar.jsx
-- │ └── SortItems.jsx
-- ├── App.jsx
-- ├── index.css
-- └── main.jsx
+```
+├── 📁 public
+│   └── 🖼️ vite.svg
+├── 📁 src
+│   ├── 📁 Components
+│   │   ├── 📄 BarcodeSearch.jsx
+│   │   ├── 📄 Category.jsx
+│   │   ├── 📄 DonutChart.jsx
+│   │   ├── 📄 FullDetailOfProduct.jsx
+│   │   ├── 📄 Home.jsx
+│   │   ├── 📄 Loader.jsx
+│   │   ├── 📄 Products.jsx
+│   │   ├── 📄 Products2.jsx
+│   │   ├── 📄 SearchBar.jsx
+│   │   └── 📄 SortItems.jsx
+│   ├── 📁 assets
+│   │   └── 🖼️ react.svg
+│   ├── 📄 App.jsx
+│   ├── 🎨 index.css
+│   └── 📄 main.jsx
+├── ⚙️ .gitignore
+├── 📝 README.md
+├── 📄 eslint.config.js
+├── 🌐 index.html
+├── ⚙️ package-lock.json
+├── ⚙️ package.json
+└── 📄 vite.config.js
 
 ---
 
