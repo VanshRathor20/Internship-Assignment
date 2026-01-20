@@ -4,6 +4,7 @@ import { IoIosSearch } from "react-icons/io";
 import { Link } from "react-router-dom";
 import BarcodeSearch from "./BarcodeSearch";
 import SortItems from "./SortItems";
+import Loader from "./Loader";
 
 const SearchBar = () => {
   const [products, setProducts] = useState([]);
@@ -116,7 +117,12 @@ const SearchBar = () => {
 
       {/* Results Container */}
       <div className="flex flex-col gap-4">
-        {loading && <p className="text-white font-semibold">Loading...</p>}
+        {
+          loading ? (
+            <Loader />
+          ) : null
+        // loading && <p className="text-black font-semibold">Loading...</p>
+        }
 
         {sortedProducts.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
